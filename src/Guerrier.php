@@ -1,6 +1,6 @@
 <?php
 
-class Guerrier extends personnage
+class Guerrier extends Personnage
 {
 
     public function __construct(string $nom){

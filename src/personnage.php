@@ -1,37 +1,60 @@
 <?php
 
-abstract class personnage
+abstract class Personnage
 {
  public string $nom;
  public int $vie;
  public int $attaque;
  public int $defense;
- public int $duree;
+ public bool $endormis;
+ public DateTime $dateDormis;
 
-
-
- public function attaquer(personnage $cible): void
- {
-    $degats = $cible->getVie() - ($this->getAttaque() - $cible->getDefense());
-
-    if ($degats > $cible->getVie()){
-        return;
+public function dors($dateDormis){
+    $dateReveil = new DateTime();
+    if ($dateDormis > $dateReveil){
+        $endormis = true;
     }
+    else{
+        $endormis = false;
+    }
+    return $endormis;
 
-    $cible->setVie($degats);
+}
 
+
+
+
+
+ public function attaquer(Personnage $cible, $endormis): void
+ {
+     if($endormis == false) {
+         $degats = $cible->getVie() - ($this->getAttaque() - $cible->getDefense());
+
+         if ($degats > $cible->getVie()) {
+             return;
+         }
+
+         $cible->setVie($degats);
+     }
+     else{
+         $message = "vous dormez";
+     }
  }
 
 
- public function __construct($nom, $vie, $attaque, $defense, $cible, int $duree){
+
+ public function __construct($nom, $vie, $attaque, $defense, $endormis, $dateDormis, $cible){
 
      $this->nom = $nom;
      $this->vie = $vie;
      $this->attaque = $attaque;
      $this->defense = $defense;
-     $this->attaquer($cible);
-     $this->duree = $duree;
+     $this->dors($endormis);
+     $this->attaquer();
+
+
  }
+
 
     /**
      * @return mixed
@@ -98,19 +121,35 @@ abstract class personnage
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getDuree(): int
+    public function isEndormis(): bool
     {
-        return $this->duree;
+        return $this->endormis;
     }
 
     /**
-     * @param int $duree
+     * @param bool $endormis
      */
-    public function setDuree(int $duree): void
+    public function setEndormis(bool $endormis): void
     {
-        $this->duree = $duree;
+        $this->endormis = $endormis;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateDormis(): DateTime
+    {
+        return $this->dateDormis;
+    }
+
+    /**
+     * @param DateTime $dateDormis
+     */
+    public function setDateDormis(DateTime $dateDormis): void
+    {
+        $this->dateDormis = $dateDormis;
     }
 
 }

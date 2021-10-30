@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include("personnage.php");
 include("Mage.php");
 include("Guerrier.php");
@@ -9,6 +9,7 @@ try{
 }catch(Exception $e){
     die('Erreur : '.$e->getMessage());
 }
+
 
 $name1 = $_POST['name1'];
 $role1 = $_POST['role1'];
@@ -23,7 +24,6 @@ $drop = $query->execute();
 
 if($role1 === 'Mage'){
     $joueur1 = new Mage($name1);
-
 }else{
     $joueur1 = new Guerrier($name1);
 }
@@ -34,15 +34,11 @@ if($role2 === 'Mage'){
     $joueur2 = new Guerrier($name2);
 }
 
-$_SESSION['joueur1'] = $joueur1;
-$_SESSION['joueur2'] = $joueur2;
-
-echo $_SESSION['joueur1'];
-
 $joueurs  = array (
   array($name1, $role1, 'joueur1'),
   array($name2, $role2, 'joueur2')
 );
+
 
 for ($i=0; $i < count($joueurs); $i++) {
   if($joueurs[$i][2] === 'joueur1'){
@@ -52,6 +48,7 @@ for ($i=0; $i < count($joueurs); $i++) {
     $sql = $bdd->prepare("INSERT INTO `Fighter`(nom, vie, attaque, defense, role, joueur)
     VALUES ('$joueur2->nom', $joueur2->vie, $joueur2->attaque ,$joueur2->defense, '$role2', 'joueur2')");
   }
+
   $result = $sql->execute();
 }
 
@@ -82,32 +79,32 @@ foreach  ($bdd->query($query) as $row) {
 
     ?>
     <form method="post" action="index.php">
-      <input type="button" class="attaque" id="btn_attaque" value="Attaquer" data-target="<?php echo $target_data?>" data-joueur="<?php echo $row['joueur']?>"/>
-      <input type="button" class="attaque" id="btn_endormir" value="Endormir" data-target="<?php echo $target_data?>" data-joueur="<?php echo $row['joueur']?>"/>
+      <input type="button" class="attaque" id="btn_attaque" value="Attaquer" data-target="<?php echo $target_data?>"/>
+      <input type="button" class="attaque" id="btn_endormir" value="Endormir" data-target="<?php echo $target_data?>"/>
     </form>
   </div>
   <br/>
   <br/>
-<?php
 
+
+
+
+  <?php
 }
 ?>
 
 <script type="text/javascript">
   $('.attaque').click(function(event) {
         event.preventDefault();
-        var target = $(this).attr('data-target');
-        var joueur = $(this).attr('data-joueur');
-
+        var target1 = $(this).attr('data-target');
         $.ajax({
             type: 'POST',
             url: 'Fight.php',
             data: {
-                target: target,
-                joueur: joueur
+                target: target1
             },
             success: function(response) {
-                $('#test').html(response);
+                alert("attaquer");
             }
         });
     });

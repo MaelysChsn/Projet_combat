@@ -1,16 +1,15 @@
 <?php
 
-class Mage extends personnage
+class Mage extends Personnage
 {
 
+    private $canspell;
 
-    // private $cible;
-    //
-    // public function endormir(){
-    //
-    //     $cible->sleep(15);
-    //
-    // }
+    public function endormir(Personnage $cible):void{
+
+        $cible->setEndormis(true);
+
+    }
 
     public function __construct(string $nom){
 
@@ -18,6 +17,8 @@ class Mage extends personnage
         $this->setVie(100);
         $this->setAttaque(rand(5,10));
         $this->setDefense(0);
+        //$this->endormir();
+
 
     }
 
