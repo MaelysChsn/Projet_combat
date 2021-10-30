@@ -1,0 +1,31 @@
+.c-joueurs{
+  display: none;
+}
+
+.c-joueurs.active{
+  display: block;
+}
+
+.c-joueur{
+  display: none;
+}
+
+.c-joueur.active{
+  display: block;
+}
+
+.btn.btn-primary{
+  display: none;
+}
+
+.btn.btn-primary.active{
+  display: block;
+}
+
+#combat{
+  display: none;
+}
+
+#combat .active{
+  display: block;
+}
